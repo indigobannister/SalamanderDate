@@ -93,16 +93,20 @@ graph_1
 salamander_summary_2017 <- salamander_clean %>% 
   filter(year == "2017", unittype != "IP") %>% 
   group_by(section, unittype) %>% 
-  summarize(count = n()) %>% 
+  summarize(count = n()) %>%
+  pivot_wider(names_from = unittype, values_from = count) %>% 
   janitor::adorn_percentages(denominator = "col") %>% 
   adorn_pct_formatting(digits = 0) %>% 
-  adorn_ns(position = "front")
+  adorn_ns(position = "front") %>% 
+  rename(Section = section)
   
 
 salamander_summary_2017 %>% 
-  kable(col.names = c("Section", 
-                     "Channel Classification", 
-                     "Count")) %>% 
+  kable(col.names = c("Cascades", 
+                     "Pool",
+                     "Side-channel"),
+        row.names = c("Clear Cut",
+                      "Old Growth")) %>% 
   kable_styling(bootstrap_options = c("striped", "hover"), 
                 full_width = F,
                 position = "center"
