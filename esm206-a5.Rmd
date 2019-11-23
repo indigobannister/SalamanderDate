@@ -84,3 +84,28 @@ graph_1 <- ggplot(data = salamander_count_sec) +
 graph_1
 ```
 
+#### 2. 
+
+```{r}
+
+# Summarize salamander counts by channel classification in 2017
+
+salamander_summary_2017 <- salamander_clean %>% 
+  filter(year == "2017", unittype != "IP") %>% 
+  group_by(section, unittype) %>% 
+  summarize(count = n()) %>% 
+  janitor::adorn_percentages(denominator = "col") %>% 
+  adorn_pct_formatting(digits = 0) %>% 
+  adorn_ns(position = "front")
+  
+
+salamander_summary_2017 %>% 
+  kable(col.names = c("Section", 
+                     "Channel Classification", 
+                     "Count")) %>% 
+  kable_styling(bootstrap_options = c("striped", "hover"), 
+                full_width = F,
+                position = "center"
+                )
+```
+
