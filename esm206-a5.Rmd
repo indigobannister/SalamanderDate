@@ -67,3 +67,20 @@ TBD
 \
 
 ### Results
+
+#### 1. Salamander counts in various sections of Mack Creek
+
+```{r}
+
+# Summarize count of salamanders by seciton and year
+salamander_count_sec <- salamander_clean %>% 
+  group_by(section, year) %>% 
+  summarize(count = n())
+
+# Create plot of salamander count over years at each section
+graph_1 <- ggplot(data = salamander_count_sec) +
+  geom_line(aes(x = year, y = count, color = section))
+
+graph_1
+```
+
