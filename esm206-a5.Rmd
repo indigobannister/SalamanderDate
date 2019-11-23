@@ -2,10 +2,68 @@
 title: "Assignment 5"
 author: "Indigo Bannister & Gavriella Keyles"
 date: "11/21/2019"
-output: html_document
+output: 
+  html_document:
+    css: bootstrap.css
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, cache = FALSE)
 ```
 
+```{r}
+# Attach Packages
+
+# In order to install extrafont, use following code in the console:
+## install.packages("extrafont")
+
+# In order to install NPS colors, use following code in the console:
+## install.packages("devtools")
+## devtools::install_github("katiejolly/nationalparkcolors")
+
+# Attach packages
+library(tidyverse)
+library(tidyr)
+library(here)
+library(janitor)
+library(ggridges)
+library(plotly)
+library(extrafont)
+library(nationalparkcolors)
+library(kableExtra)
+library(effsize)
+library(car)
+library(ggbeeswarm)
+```
+
+```{r}
+# Read in data and create new tidy dataframe
+
+salamander_raw <- read_csv(here("raw_data", "mack_creek_vertebrates.csv")) 
+
+salamander_clean <- salamander_raw %>% 
+  clean_names() %>%
+  filter(species == "DITE") %>% 
+  select(section, weight, year, unittype)
+  
+```
+
+\
+
+### Introduction
+TBD
+
+
+<center>
+![](images/pacific_salamander.jpg){ width=75% }
+
+<font size="2"> **Figure 1:** Pacific Giant Salamander (Dicamptodon tenebrosus), in Opal Creek Wilderness, Oregon. Photographer: [Dave Huth</font>](https://www.flickr.com/photos/davemedia/9094499321).
+</center>
+
+\
+
+### Data & methods
+
+\
+
+### Results
