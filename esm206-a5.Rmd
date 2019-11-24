@@ -63,12 +63,16 @@ TBD
 \
 
 ### Data & methods
+<<<<<<< HEAD
 Data for populations of Pacific Giant Salamanders *(Dicamptodon tenebrosus)* were collected in the [H.J. Andrews Experimental Forest](https://andrewsforest.oregonstate.edu/) near Blue River, Oregon as part of the National Science Foundation's Long Term Ecological Research Network. Salamanders were sampled with two-pass electrofishing in two sections of Mack Creek, one reach in a section of clearcut forest (ca. 1963) and the other an upstream 500-year-old coniferous forest. The two sections are then subdivided to indicate where in the channel salamanders were found (pool, cascade, or side-channel). According to project metadata, the purpose of the Aquatic Vertebrate Population Study in Mack Creek, is "to provide a long-term record of populations in aquatic vertebrates...related to land use and disturbance histories."
 \
 For more information see the project [metadata](https://portal.lternet.edu/nis/metadataviewer?packageid=knb-lter-and.4027.12)
 \
 In this analysis, 
 All analyses and figures were prepared using R software version 3.6.1.
+=======
+
+>>>>>>> parent of 28a0468... Run chi square, add watershed map
 \
 
 ### Results
