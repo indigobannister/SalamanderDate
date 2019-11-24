@@ -64,6 +64,12 @@ TBD
 
 ### Data & methods
 
+<center>
+![](images/watershed_map_labelled.jpg){ width=75% }
+
+<font size="2"> **Figure 2:** Map of HJ Andrews Forest Experimental Watersheds - Mack Creek watershed highlighted in green. Source: [HJ Andrews Experimental Forest</font>](https://andrewsforest.oregonstate.edu/research/infrastructure/watersheds).
+</center>
+
 \
 
 ### Results
@@ -94,22 +100,32 @@ salamander_summary_2017 <- salamander_clean %>%
   filter(year == "2017", unittype != "IP") %>% 
   group_by(section, unittype) %>% 
   summarize(count = n()) %>%
-  pivot_wider(names_from = unittype, values_from = count) %>% 
-  janitor::adorn_percentages(denominator = "col") %>% 
+  pivot_wider(names_from = unittype, values_from = count)
+
+salamander_sum_2017_table <- salamander_summary_2017 %>% 
+  janitor::adorn_percentages(denominator = "row") %>% 
   adorn_pct_formatting(digits = 0) %>% 
   adorn_ns(position = "front") %>% 
   rename(Section = section)
   
-
-salamander_summary_2017 %>% 
-  kable(col.names = c("Cascades", 
-                     "Pool",
-                     "Side-channel"),
-        row.names = c("Clear Cut",
-                      "Old Growth")) %>% 
-  kable_styling(bootstrap_options = c("striped", "hover"), 
-                full_width = F,
-                position = "center"
-                )
+# FIX KABLE LATER
+#salamander_summary_2017 %>% 
+  #kable(col.names = c("Cascades", 
+                    # "Pool",
+                   #  "Side-channel"))
+ # kable_styling(bootstrap_options = c("striped", "hover"), 
+              #  full_width = F,
+              #  position = "center"
+              #  )
+  
+chi_1_salamander <- salamander_summary_2017[-1]
+  
 ```
+
+#### 3. 
+```{r}
+chisq.test(chi_1_salamander)
+
+```
+
 
