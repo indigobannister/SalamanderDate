@@ -105,26 +105,32 @@ graph_1
 
 salamander_summary_2017 <- salamander_clean %>% 
   filter(year == "2017", unittype != "IP") %>% 
-  group_by(section, unittype) %>% 
+  mutate(section_name = 
+           ifelse(section == "CC", "Clear Cut",
+         ifelse(section == "OG", "Old Growth", ""))) %>% 
+  group_by(section_name, unittype) %>% 
   summarize(count = n()) %>%
   pivot_wider(names_from = unittype, values_from = count)
+  
+# Create contingency table
 
 salamander_sum_2017_table <- salamander_summary_2017 %>% 
   janitor::adorn_percentages(denominator = "row") %>% 
   adorn_pct_formatting(digits = 0) %>% 
   adorn_ns(position = "front") %>% 
-  rename(Section = section)
+  rename(Section = section_name) %>% 
+  rename(Channel = "C") %>% 
+  rename(Pool = "P") %>% 
+  rename("Side channel" = "SC")
   
+# Make table pretty
 
-# FIX KABLE LATER
-#salamander_summary_2017 %>% 
-  #kable(col.names = c("Cascades", 
-                    # "Pool",
-                   #  "Side-channel"))
- # kable_styling(bootstrap_options = c("striped", "hover"), 
-              #  full_width = F,
-              #  position = "center"
-              #  )
+kable(salamander_sum_2017_table) %>%
+ kable_styling(bootstrap_options = c("striped", "hover"), 
+              full_width = F,
+              position = "center"
+              )
+
   
 
 ```
@@ -132,6 +138,9 @@ salamander_sum_2017_table <- salamander_summary_2017 %>%
 #### 3. 
 
 ```{r}
+
+# Run chi sq test to explore whether channel position is independent of section type
+
 chi_1_salamander <- salamander_summary_2017[-1]
 
 chisq.test(chi_1_salamander)
