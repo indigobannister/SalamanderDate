@@ -1,7 +1,7 @@
 ---
 title: "Assignment 5"
 author: "Indigo Bannister & Gavriella Keyles"
-date: "11/21/2019"
+date: "12/4/2019"
 output: 
   html_document:
     css: bootstrap.css
@@ -88,16 +88,27 @@ All analyses and figures were prepared using R software version 3.6.1.
 # Summarize count of salamanders by seciton and year
 salamander_count_sec <- salamander_clean %>% 
   group_by(section, year) %>% 
-  summarize(count = n())
+  summarize(count = n()) %>%
+  mutate(section_name = 
+           ifelse(section == "CC", "Clear Cut",
+         ifelse(section == "OG", "Old Growth", "")))
 
 # Create plot of salamander count over years at each section
 graph_1 <- ggplot(data = salamander_count_sec) +
-  geom_line(aes(x = year, y = count, color = section))
+  geom_line(aes(x = year, y = count, color = section_name))+
+  theme_light()+
+  labs(x = "",
+       y = "Count",
+       color = "Section")+
+  scale_y_continuous(breaks = c(50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400))
+  
 
 graph_1
 ```
 
-#### 2. 
+#### 2. 2017 Salamander counts by channel classification
+<font size="2"> ***Table 1:***
+*2017 counts of Salamanders found in Mack Creek, grouped by section (clear cut vs. old growth) and position within channel (pool, cascades, side-channel).* </font>
 
 ```{r}
 
@@ -135,12 +146,15 @@ kable(salamander_sum_2017_table) %>%
 
 ```
 
-#### 3. 
+#### 3. Chi-square test to assess association between forest section and channel position in 2017
 
-```{r}
+```{r, include = FALSE}
 
 # Run chi sq test to explore whether channel position is independent of section type
 
 chi_1_salamander <- salamander_summary_2017[-1]
 
 chisq.test(chi_1_salamander)
+```
+
+
