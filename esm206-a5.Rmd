@@ -82,7 +82,7 @@ All analyses and figures were prepared using R software version 3.6.1.
 ### Results
 
 #### 1. Salamander counts in various sections of Mack Creek
-
+<center>
 ```{r}
 
 # Summarize count of salamanders by seciton and year
@@ -105,6 +105,7 @@ graph_1 <- ggplot(data = salamander_count_sec) +
 
 graph_1
 ```
+</center>
 
 #### 2. 2017 Salamander counts by channel classification
 <font size="2"> ***Table 1:***
@@ -145,8 +146,9 @@ kable(salamander_sum_2017_table) %>%
   
 
 ```
+\
 
-#### 3. Chi-square test to assess association between forest section and channel position in 2017
+#### 3. Chi-square test to assess association between forest section and channel classification in 2017
 
 ```{r, include = FALSE}
 
@@ -157,4 +159,5 @@ chi_1_salamander <- salamander_summary_2017[-1]
 chisq.test(chi_1_salamander)
 ```
 
+We used a Chi-square test to examine the relationship between channel position (pool, side-channel or cascades) and section (clear cut or old growth) in Mack Creek 
 
