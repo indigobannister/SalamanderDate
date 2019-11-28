@@ -1,7 +1,7 @@
 ---
-title: "Assignment 5"
+title: "Analysis of Pacific Giant Salamander Abundance and Weight Under Forest Management"
 author: "Indigo Bannister & Gavriella Keyles"
-date: "12/4/2019"
+date: "December 4, 2019"
 output: 
   html_document:
     css: bootstrap.css
@@ -34,11 +34,13 @@ library(kableExtra)
 library(effsize)
 library(car)
 library(ggbeeswarm)
+
+# Load fonts
+loadfonts()
 ```
 
 ```{r}
-# Read in data and create new tidy dataframe
-
+# Read in data and create new tidy dataframe, filtered to DITE as species
 salamander_raw <- read_csv(here("raw_data", "mack_creek_vertebrates.csv")) 
 
 salamander_clean <- salamander_raw %>% 
@@ -50,15 +52,22 @@ salamander_clean <- salamander_raw %>%
 
 \
 
-### Introduction
-TBD
-
 
 <center>
 ![](images/pacific_salamander.jpg){ width=75% }
 
 <font size="2"> **Figure 1:** Pacific Giant Salamander (Dicamptodon tenebrosus), in Opal Creek Wilderness, Oregon. Photographer: [Dave Huth</font>](https://www.flickr.com/photos/davemedia/9094499321).
 </center>
+
+\
+
+### Introduction
+Pacific giant salamanders (*Dicamptodon tenebrosus*), the largest terrestrial salamander in North America, thrive in the wet forests of coastal northern California, Oregon, and Washington (California Herps, 2019). Their preferred habitat is near clear, cold streams, rivers, lakes, or ponds with rocks, logs or root channels to burrow under. Larvae hatch under water and spend approximately the first two years of their lives in the water. Once they transform to their terrestrial forms, reproduction also occurs in the water, (California Herps, 2019). Due to their sensitivity to water quality, Pacific giant salamanders are used as an indicator species of the declining health of waterways. Logging can be particularly impactful on Pacific giant salamanders due to the increased sedimentation of streams from erosion (Oregon Wild, 2019). 
+
+Oregon State University has been monitoring the species along Mack Creek in the H.J. Andrews Experimental Forest near Eugene, Oregon since 1993. Electrofishing is used to capture vertebrates along the creek and all captured vertebrates are measured and weighed (Gregory S. V., 2016). The Mack Creek watershed (1,433 acres) contains two unique management histories: approximately 13% of the watershed was clear cut around 1963 and the rest contains a 500-year-old coniferous forest (Andrews Experimental Forest, 2017). This research forest offers a unique chance to consider the long-term impacts of logging on salamander well-being compared to a more natural forest. 
+
+In this analysis, we use data provided by the Andrews Experimental Forest to explore differences in salamander abundance and weight among old growth and clear-cut sections of Mack Creek and among different stream characteristics (pool, cascade, side channel).
+
 
 \
 
@@ -71,11 +80,13 @@ TBD
 
 \
 
-Data for populations of Pacific Giant Salamanders *(Dicamptodon tenebrosus)* were collected in the [H.J. Andrews Experimental Forest](https://andrewsforest.oregonstate.edu/) near Blue River, Oregon as part of the National Science Foundation's Long Term Ecological Research Network. Salamanders were sampled with two-pass electrofishing in two sections of Mack Creek, one reach in a section of clearcut forest (ca. 1963) and the other an upstream 500-year-old coniferous forest. The two sections are then subdivided to indicate where in the channel salamanders were found (pool, cascade, or side-channel). According to project metadata, the purpose of the Aquatic Vertebrate Population Study in Mack Creek, is "to provide a long-term record of populations in aquatic vertebrates...related to land use and disturbance histories."
+Data for populations of Pacific giant salamanders *(Dicamptodon tenebrosus)* were collected in the [H.J. Andrews Experimental Forest](https://andrewsforest.oregonstate.edu/) near Blue River, Oregon as part of the National Science Foundation's Long Term Ecological Research Network. Salamanders were sampled with two-pass electrofishing in two sections of Mack Creek, one reach in a section of clearcut forest (ca. 1963) and the other an upstream 500-year-old coniferous forest. The two sections are then subdivided to indicate where in the channel salamanders were found (pool, cascade, or side-channel). According to project metadata, the purpose of the Aquatic Vertebrate Population Study in Mack Creek, is "to provide a long-term record of populations in aquatic vertebrates...related to land use and disturbance histories."
 
 For more information see the project [metadata](https://portal.lternet.edu/nis/metadataviewer?packageid=knb-lter-and.4027.12)
 
 All analyses and figures were prepared using R software version 3.6.1.
+
+**ADD SUMMARY OF WHAT ANALYSIS WAS CONDUCTED -  types of statistical tests performed, significance level used**
 
 \
 
@@ -206,5 +217,11 @@ salamander_post_hoc
 \
 
 ### References
+**Andrews Experimental Forest. 2017.** [Location Name: Andrews Mack Creek Watershed.](http://andlter.forestry.oregonstate.edu/data/place.aspx?domain=place&dbcode=HF004&placeid=669) HJ Andrews Experimental Forest Long-Term Ecological Research.
 
+**California Herps. 2019.** [Coastal Giant Salamander - *Dicamptodon tenebrosus*.](http://www.californiaherps.com/salamanders/pages/d.tenebrosus.html)
+
+**Gregory S. V. 2016.** [Aquatic Vertebrate Population Study in Mack Creek, Andrews Experimental Forest, 1987 to present.](https://doi.org/10.6073/pasta/5de64af9c11579266ef20da2ff32f702) Environmental Data Initiative.  Dataset accessed 11/19/2019.
+
+**Oregon Wild. 2019.** [Pacific Giant Salamander.](https://oregonwild.org/wildlife/pacific-giant-salamander)
 
