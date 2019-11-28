@@ -55,9 +55,8 @@ salamander_clean <- salamander_raw %>%
 
 <center>
 ![](images/pacific_salamander.jpg){ width=75% }
-
-<font size="2"> **Figure 1:** Pacific Giant Salamander (Dicamptodon tenebrosus), in Opal Creek Wilderness, Oregon. Photographer: [Dave Huth</font>](https://www.flickr.com/photos/davemedia/9094499321).
 </center>
+<font size="2"> ***Figure 1:*** *Pacific Giant Salamander (Dicamptodon tenebrosus), in Opal Creek Wilderness, Oregon. Photographer: [Dave Huth</font>](https://www.flickr.com/photos/davemedia/9094499321).*
 
 \
 
@@ -75,8 +74,9 @@ In this analysis, we use data provided by the Andrews Experimental Forest to exp
 <center>
 ![](images/watershed_map_labelled.jpg){ width=75% }
 
-<font size="2"> **Figure 2:** Map of HJ Andrews Forest Experimental Watersheds - Mack Creek watershed highlighted in green. Source: [HJ Andrews Experimental Forest</font>](https://andrewsforest.oregonstate.edu/research/infrastructure/watersheds).
 </center>
+<font size="2"> ***Figure 2:*** *Map of HJ Andrews Forest Experimental Watersheds - Mack Creek watershed highlighted in green. Source: [HJ Andrews Experimental Forest</font>](https://andrewsforest.oregonstate.edu/research/infrastructure/watersheds).*
+
 
 \
 
@@ -92,9 +92,8 @@ All analyses and figures were prepared using R software version 3.6.1.
 
 ### Results
 
-#### 1. Salamander counts in various sections of Mack Creek
-<center>
-```{r}
+#### 1. Salamander abundance in old-growth and clear-cut sections of Mack Creek
+```{r,fig.align="center",out.width="100%"}
 
 # Summarize count of salamanders by seciton and year
 salamander_count_sec <- salamander_clean %>% 
@@ -104,19 +103,39 @@ salamander_count_sec <- salamander_clean %>%
            ifelse(section == "CC", "Clear Cut",
          ifelse(section == "OG", "Old Growth", "")))
 
-# Create plot of salamander count over years at each section
-graph_1 <- ggplot(data = salamander_count_sec) +
-  geom_line(aes(x = year, y = count, color = section_name))+
-  theme_light()+
-  labs(x = "",
-       y = "Count",
-       color = "Section")+
-  scale_y_continuous(breaks = c(50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400))
-  
+# Create a custom palette for colors in graph_a
+site_colors <- park_palette("MtRainier")
 
-graph_1
+# Create plot of salamander count over years at each section
+graph_1 <- ggplot(data = salamander_count_sec, 
+                  aes(x = year, 
+                      y = count,
+                      color = section_name)) +
+  geom_line(aes(text = paste('Type:', section_name,
+                             '<br>Total:', count),
+                group = 1)) +
+  theme_minimal() +
+  scale_color_manual(values = site_colors, name = "Forest Type") +
+  labs(x = "Year",
+       y = "Number of Salamanders Observed",
+       color = "Foreset Type") +
+  scale_x_continuous(expand = c(0, 0),
+                     limits = c(1993, 2017),
+                     breaks = seq(1995, 2015, by = 5)) +
+  scale_y_continuous(limits = c(0, 400),
+                     breaks = seq(0, 400, by = 50),
+                     expand = c(0, 0))
+  
+# Make graph_a interactive with ggplotly 
+ggplotly(graph_1, tooltip = "text") %>% 
+  layout(legend = list(x = 0.05, y = 0.85)) %>%
+  config(displayModeBar = FALSE)
+
 ```
-</center>
+<font size="2"> ***Figure 3: Salamander abundance in clear-cut and old-growth forest, 1993 to 2017.*** *Annual salamander counts through electro-fishing in Mack Creek in the HJ Andrews Experimental Forest.* ***Interactive:*** *Double-click on individual site within legend to highlight. Single-click and unclick sites within legend to toggle visibility and compare site data.*</font>
+
+
+\
 
 #### 2. 2017 Salamander counts by channel classification
 <font size="2"> ***Table 1:***
