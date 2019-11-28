@@ -93,6 +93,8 @@ All analyses and figures were prepared using R software version 3.6.1.
 ### Results
 
 #### 1. Salamander abundance in old-growth and clear-cut sections of Mack Creek
+Figure 3 demonstrates that lobster abundance has followed relatively similar trends in Mack Creek depite the different forest management techniques. From 1995 to 2011, salamander counts along the clear-cut sections of Mack Creek were lower than those in the old-growth sections. In the years preceding and following this range, there were years where counts in the clear-cut sections exceeded those in the old-growth sections. Overall trends in abundance seem to impact salamanders no matter what forest type they are in, with both groups experiencing increading and decreasing numbers in the same years.  
+
 ```{r,fig.align="center",out.width="100%"}
 
 # Summarize count of salamanders by seciton and year
@@ -100,8 +102,8 @@ salamander_count_sec <- salamander_clean %>%
   group_by(section, year) %>% 
   summarize(count = n()) %>%
   mutate(section_name = 
-           ifelse(section == "CC", "Clear Cut",
-         ifelse(section == "OG", "Old Growth", "")))
+           ifelse(section == "CC", "Clear-cut",
+         ifelse(section == "OG", "Old-growth", "")))
 
 # Create a custom palette for colors in graph_a
 site_colors <- park_palette("MtRainier")
