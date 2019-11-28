@@ -154,10 +154,49 @@ kable(salamander_sum_2017_table) %>%
 
 # Run chi sq test to explore whether channel position is independent of section type
 
-chi_1_salamander <- salamander_summary_2017[-1]
+chi_sq_table <- salamander_summary_2017[-1]
 
-chisq.test(chi_1_salamander)
+chi_sq_test <- chisq.test(chi_sq_table)
 ```
 
-We used a Chi-square test to examine the relationship between channel position (pool, side-channel or cascades) and section (clear cut or old growth) in Mack Creek 
+We used a Chi-square test to examine the relationship between channel position (pool, side-channel or cascades) and section (clear cut or old growth) in Mack Creek. We found a *X*^2^ value of `r round(chi_sq_test$statistic, 2)` (d.f. `r chi_sq_test$parameter`) with a p-value of `r round(chi_sq_test$p.value, 3)`. As a result, we retain the null hypothesis that there is *no* association between channel position and forest section for Giant Pacific Salamanders in Mack Creek.
+
+\
+
+#### 4. Chi-square test to assess association between forest section and channel classification in 2017
+
+```{r}
+
+# Create data subsets to use in two-tailed t.test
+salamander_weights_cc <- salamander_clean %>% 
+  filter(year == "2017", section == "CC")
+
+salamander_weights_og <- salamander_clean %>% 
+  filter(year == "2017", section == "OG")
+```
+
+#### 5. One-way ANOVA to explore differences in salamander weights by channel classification
+
+```{r}
+
+# Create data subset, salamander weight in 2017
+salamander_weight_2017 <- salamander_clean %>% 
+  filter(year == "2017", unittype !="IP") %>% 
+  select(weight, unittype) %>% 
+  mutate(channel_class = 
+           ifelse(unittype == "P", "Pool",
+          ifelse(unittype == "SC", "Side-Channel",
+          ifelse(unittype == "C", "Cascades", ""))))
+
+# One-way ANOVA to explore possible differences in mean weights between salamanders in different parts of the channel
+
+salamander_aov <- aov(weight ~ channel_class, data = salamander_weight_2017)
+summary(salamander_aov)
+
+# Post-hoc test run on salamander ANOVA results
+
+salamander_post_hoc <- TukeyHSD(salamander_aov)
+salamander_post_hoc
+
+```
 
