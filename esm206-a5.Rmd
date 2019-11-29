@@ -139,7 +139,7 @@ ggplotly(graph_1, tooltip = "text") %>%
 
 \
 
-#### 2. 2017 Salamander counts by channel classification
+#### 2. Salamander counts by channel classification, 2017
 <font size="2"> ***Table 1:***
 *2017 counts of Salamanders found in Mack Creek, grouped by section (clear cut vs. old growth) and position within channel (pool, cascades, side-channel).* </font>
 
@@ -180,37 +180,47 @@ kable(salamander_sum_2017_table) %>%
 ```
 \
 
-#### 3. Chi-square test to assess association between forest section and channel classification in 2017
+#### 3. Association between forest section and channel classification, 2017
 
 ```{r, include = FALSE}
 
 # Run chi sq test to explore whether channel position is independent of section type
-
 chi_sq_table <- salamander_summary_2017[-1]
 
 chi_sq_test <- chisq.test(chi_sq_table)
+
+chi_sq_test
 ```
 
 We used a Chi-square test to examine the relationship between channel position (pool, side-channel or cascades) and section (clear cut or old growth) in Mack Creek. We found a *X*^2^ value of `r round(chi_sq_test$statistic, 2)` (d.f. `r chi_sq_test$parameter`) with a p-value of `r round(chi_sq_test$p.value, 3)`. As a result, we retain the null hypothesis that there is *no* association between channel position and forest section for Pacific giant salamanders in Mack Creek.
 
 \
 
-#### 4. Compare weights of Pacific giant salamanders in clear cut and old growth forest sections Mack creek in 2017
+#### 4. Salamander weights in clear cut vs. old growth forests, 2017
+In order to assess whether forest management strategies had an impact on salamander weight and abundance,  statistical testing (Student's T Test and Cohen's Effect Size) was used to compare salamander weights in clear cut and old growth forest sections in 2017.
 
-```{r}
+```{r, include = FALSE}
 
 # Create data subsets to use in two-tailed t.test
 salamander_weights_cc <- salamander_clean %>% 
-  filter(year == "2017", section == "CC")
+  filter(year == "2017", section == "CC") 
 
 salamander_weights_og <- salamander_clean %>% 
-  filter(year == "2017", section == "OG")
-```
+  filter(year == "2017", section == "OG") 
 
-#### 5. One-way ANOVA to explore differences in salamander weights by channel classification
+ttest <- t.test(salamander_weights_cc$weight, salamander_weights_og$weight)
+cohen <- cohen.d(salamander_weights_cc$weight, salamander_weights_og$weight) #SOMETHING ISNT WORKING WITH COHEN'S D. I JUST KEEP GETTING NA VALUES.
+
+ttest
+cohen
+```
+In 2017, there was an `r round(abs(ttest$estimate[1]-ttest$estimate[2])/((ttest$estimate[1]+ttest$estimate[2])/2)*100,0)`% difference between salamander weights at clear-cut forest (m = `r round(ttest$estimate[1], 2)` grams) and old-growth forest (m = `r round(ttest$estimate[2], 2)` grams) sections. This difference is *not* statistically significant (t(`r round(ttest$parameter, 2)`) = `r round(ttest$statistic, 2)`, *p* = `r round(ttest$p.value, 3)`), with a _______ effect size (`r round(cohen$estimate, 2)`).
+
+\
+
+#### 5. Comparison of salamander weights by channel classification
 
 ```{r}
-
 # Create data subset, salamander weight in 2017
 salamander_weight_2017 <- salamander_clean %>% 
   filter(year == "2017", unittype !="IP") %>% 
@@ -219,6 +229,58 @@ salamander_weight_2017 <- salamander_clean %>%
            ifelse(unittype == "P", "Pool",
           ifelse(unittype == "SC", "Side-Channel",
           ifelse(unittype == "C", "Cascades", ""))))
+
+# Create summary table to report means and std dev on salamander weight
+salamander_wt_2017_sum <- salamander_weight_2017 %>% 
+  na.omit() %>% 
+  group_by(channel_class) %>% 
+  summarise(sal_mean = mean(weight),
+            sal_sd = sd(weight))
+
+# Create a plot depicting salamander weights by channel classification
+graph_2 <- ggplot() +
+  geom_density_ridges(data = salamander_weight_2017, 
+                aes(x = weight,
+                    y = channel_class))
+
+# graph_2
+
+graph_2b <- ggplot() +
+  geom_histogram(data = salamander_weight_2017, 
+                aes(x = weight, 
+                    fill = channel_class,
+                    alpha = 0.75)) +
+  #geom_point(data = salamander_wt_2017_sum, 
+            # aes(x = weight, y = ), 
+             #color = "firebrick",
+            # size = 4) +
+ # geom_errorbar(data = penguin_f_summary, 
+               # aes(x = species, 
+                 #   ymin = mean_flipper_length - sd_flipper_length,
+                 #   ymax = mean_flipper_length + sd_flipper_length),
+               # color = "firebrick",
+              #  width = 0.1) +
+  labs(x = "Salamander weight (grams)",
+       y = "Number of salamanders observed") +
+  scale_x_continuous(expand = c(0,0),
+                     limits = c(0,90),
+                     breaks = seq(0,90, by = 20)) +
+  scale_y_continuous(expand = c(0,0),
+                     limits = c(0,125),
+                     breaks = seq (0,125, by = 25)) +  
+  theme_minimal() +
+  scale_fill_manual(values = site_colors) +
+  facet_wrap(~channel_class) + 
+  theme(legend.position = "none")
+  
+
+graph_2b
+
+
+```
+
+
+```{r, include = FALSE}
 
 # One-way ANOVA to explore possible differences in mean weights between salamanders in different parts of the channel
 
@@ -231,9 +293,9 @@ salamander_post_hoc <- TukeyHSD(salamander_aov)
 salamander_post_hoc
 
 ```
+\
 
 ### Summary
-- 
 
 \
 
