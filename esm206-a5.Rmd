@@ -188,7 +188,6 @@ kable(salamander_sum_2017_table) %>%
 chi_sq_table <- salamander_summary_2017[-1]
 
 chi_sq_test <- chisq.test(chi_sq_table)
-
 chi_sq_test
 ```
 
@@ -240,13 +239,6 @@ salamander_wt_2017_sum <- salamander_weight_2017 %>%
             sal_sd_low = sal_mean - sal_sd)
 
 # Create a plot depicting salamander weights by channel classification
-graph_2 <- ggplot() +
-  geom_density_ridges(data = salamander_weight_2017, 
-                aes(x = weight,
-                    y = channel_class))
-
-graph_2
-
 graph_2b <- ggplot() +
   geom_histogram(data = salamander_weight_2017, 
                 aes(x = weight, 
@@ -281,23 +273,12 @@ graph_2b <- ggplot() +
 
 graph_2b
 
-
-graph_2c <- ggplot() +
-geom_beeswarm(data = salamander_weight_2017, 
-              aes(y = weight,
-                  x = channel_class))
-
-graph_2c
-
 graph_2d <- ggplot() +
 geom_jitter(data = salamander_weight_2017, 
               aes(y = weight,
                   x = channel_class))
 
 graph_2d
-
-
-# So many outliers! Let's make sure to do something with medians
 
 
 ```
@@ -311,12 +292,12 @@ graph_2d
 salamander_weight_summary <- salamander_weight_2017 %>% 
   group_by(channel_class) %>% 
   summarize(
-    "Mean weight (g)" = mean(weight, na.rm = TRUE),
-    "Median weight" = median(weight, na.rm = TRUE),
-    "Standard deviation" = sd(weight, na.rm = TRUE),
+    "Mean weight (g)" = round(mean(weight, na.rm = TRUE), 2),
+    "Median weight (g)" = round(median(weight, na.rm = TRUE), 2),
+    "Standard deviation" = round(sd(weight, na.rm = TRUE), 2),
     "Sample size" = n(),
-    "Standard error" = sd(weight, na.rm = TRUE) / sqrt(n()),
-    "Variance" = var(weight, na.rm = TRUE)
+    "Standard error" = round(sd(weight, na.rm = TRUE) / sqrt(n()),2),
+    "Variance" = round(var(weight, na.rm = TRUE),2)
   ) %>% 
   rename("Channel position" = channel_class)
   
@@ -357,7 +338,7 @@ An analysis of variance (ANOVA) on salamander weights in Mack Creek  yielded sig
 
 - Based on a number of statistical tests, we do not see significant differences in Pacific giant salamander weight between different sections of forest (old growth or clear cut), or different sections of the channel (cascades, side-pool, pool).
 - We also do not see significants differences between *where* in Mack Creek (cascades, pool, side-channel) salamanders are found in an old growth section of the forest versus in a clear cut section. Proportions of salamanders in the three channel classifications are similar across the two forest sections.
-- These findings may suggest that Pacific giant salamanders are resilient to perturbation.
+- These findings may suggest that Pacific giant salamanders are resilient to perturbation. ADD SOMETHING HERE ABOUT ABLE TO RECOVER OVER TIME. 
 - <p style="color:red">**Maybe add something about weights not being different, not really sure why any of these results are particularly interesting? Besides above?**</p>
 \
 
