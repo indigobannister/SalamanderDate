@@ -84,8 +84,10 @@ Data for populations of Pacific giant salamanders *(Dicamptodon tenebrosus)* wer
 
 For more information see the project [metadata](https://portal.lternet.edu/nis/metadataviewer?packageid=knb-lter-and.4027.12)
 
-All analyses and figures were prepared using R software version 3.6.1.
+The following tests were performed in this analysis to explore Pacific giant salamander populations in Mack Creek:
 
+All tests were performed using a significance level of $\alpha$ = .05.
+All analyses and figures were prepared using R software version 3.6.1.
 <p style="color:red"> **ADD SUMMARY OF WHAT ANALYSIS WAS CONDUCTED -  types of statistical tests performed, significance level used**</p>
 
 \
@@ -191,7 +193,7 @@ chi_sq_test <- chisq.test(chi_sq_table)
 chi_sq_test
 ```
 
-We used a Chi-square test to examine the relationship between channel position (pool, side-channel or cascades) and section (clear cut or old growth) in Mack Creek. We found a *X*^2^ value of `r round(chi_sq_test$statistic, 2)` (d.f. `r chi_sq_test$parameter`) with a p-value of `r round(chi_sq_test$p.value, 3)`. As a result, we retain the null hypothesis that there is *no* association between channel position and forest section for Pacific giant salamanders in Mack Creek.
+We used a Chi-square test to examine the relationship between channel position (pool, side-channel or cascades) and section (clear cut or old growth) in Mack Creek. We found a $\chi$^2^ value of `r round(chi_sq_test$statistic, 2)` (d.f. `r chi_sq_test$parameter`) with a p-value of `r round(chi_sq_test$p.value, 3)`. As a result, we retain the null hypothesis that there is *no* association between channel position and forest section for Pacific giant salamanders in Mack Creek.
 
 \
 
@@ -213,7 +215,7 @@ cohen <- cohen.d(salamander_weights_cc$weight, salamander_weights_og$weight, na.
 ttest
 cohen
 ```
-In 2017, there was an `r round(abs(ttest$estimate[1]-ttest$estimate[2])/((ttest$estimate[1]+ttest$estimate[2])/2)*100,0)`% difference between salamander weights at clear-cut forest (m = `r round(ttest$estimate[1], 2)` grams) and old-growth forest (m = `r round(ttest$estimate[2], 2)` grams) sections. This difference is *not* statistically significant (t(`r round(ttest$parameter, 2)`) = `r round(ttest$statistic, 2)`, *p* = `r round(ttest$p.value, 3)`), with a negligible effect size (`r round(cohen$estimate, 2)`).
+In 2017, there was a `r round(abs(ttest$estimate[1]-ttest$estimate[2])/((ttest$estimate[1]+ttest$estimate[2])/2)*100,0)`% difference between salamander weights at clear-cut forest (m = `r round(ttest$estimate[1], 2)` grams) and old-growth forest (m = `r round(ttest$estimate[2], 2)` grams) sections. This difference is *not* statistically significant (t(`r round(ttest$parameter, 2)`) = `r round(ttest$statistic, 2)`, *p* = `r round(ttest$p.value, 3)`), with a negligible effect size (`r round(cohen$estimate, 2)`).
 
 \
 
@@ -326,20 +328,33 @@ aov_outputs
 salamander_post_hoc <- TukeyHSD(salamander_aov)
 salamander_post_hoc
 
+# Cohen's D test for effect size
+
+# First create data subsets
+pool_weights <- salamander_weight_2017 %>% 
+  filter(channel_class == "Pool") %>% 
+  pull(weight)
+
+sidechannel_weights <- salamander_weight_2017 %>% 
+  filter(channel_class == "Side-Channel") %>% 
+  pull(weight)
+
+cohen_weight <- cohen.d(pool_weights, sidechannel_weights, na.rm = TRUE)
+
+cohen_weight
 ```
 Mean weight (g) differed significantly between salamanders found in (one-way ANOVA with post-hoc Tukey's HSD, (F(`r aov_outputs[1]`, `r aov_outputs[2]`) = `r round(aov_outputs[7],2)`, *p* = `r round(aov_outputs[9],3)`). 
 
-An analysis of variance (ANOVA) on salamander weights in Mack Creek  yielded significant variation among channel positions, (F(`r aov_outputs[1]`, `r aov_outputs[2]`) = `r round(aov_outputs[7],2)`, *p* = `r round(aov_outputs[9],3)`). A post hoc Tukey test showed that mean weights for salamanders found in side-channels and pools differed significantly *p* = `r round(salamander_post_hoc$channel_class[12],3)`), while we do not see siginificant differences elsewhere.
+An analysis of variance (ANOVA) on salamander weights in Mack Creek  yielded significant variation among channel positions, (F(`r aov_outputs[1]`, `r aov_outputs[2]`) = `r round(aov_outputs[7],2)`, *p* = `r round(aov_outputs[9],3)`). A post hoc Tukey test showed that mean weights for salamanders found in side-channels and pools differed significantly *p* = `r round(salamander_post_hoc$channel_class[12],3)`) with a small effect size (`r round(cohen_weight$estimate, 2)`) and a `r round(abs(salamander_weight_summary$"Mean weight (g)"[2]-salamander_weight_summary$"Mean weight (g)"[3])/((salamander_weight_summary$"Mean weight (g)"[2]+salamander_weight_summary$"Mean weight (g)"[3])/2)*100,0)`% difference. We do not see siginificant differences elsewhere.
 
-<p style="color:red">  **Next will add why means are bad! Outliers!** </p>
-\
+While the above analysis uses mean as the measure of central tendency, there are numerous outliers in the data for all three channel classifications. This is easily visible in Figure 3. As a result, means of these samples will skew greater than other measures of central tendency. Therefore we present sample medians for all three channel classifications. Aligning with the results from statistical tests (one-way ANOVA and post-hoc Tukey's HSD) to compare means, we can see that side-channel median weight (median = `r round(salamander_weight_summary$"Median weight (g)"[3], 2)`) is lowest. Overall, Pacific giant salamander weights are relatively similar between the three channel classifications in Mack Creek.  
 
 ### Summary
 
 - Based on a number of statistical tests, we do not see significant differences in Pacific giant salamander weight between different sections of forest (old growth or clear cut), or different sections of the channel (cascades, side-pool, pool).
 - We also do not see significants differences between *where* in Mack Creek (cascades, pool, side-channel) salamanders are found in an old growth section of the forest versus in a clear cut section. Proportions of salamanders in the three channel classifications are similar across the two forest sections.
-- These findings may suggest that Pacific giant salamanders are resilient to perturbation. ADD SOMETHING HERE ABOUT ABLE TO RECOVER OVER TIME. 
-- <p style="color:red">**Maybe add something about weights not being different, not really sure why any of these results are particularly interesting? Besides above?**</p>
+- These findings may suggest that Pacific giant salamanders are resilient to perturbation when viewed over long time periods. That is to say, while Pacific giant salamanders may be sensitive to perturbation initially, they are able to recover over time.
+- We do not see major differences between weights of salamanders in different sections of the channel, though salamanders found in side-channels have slightly lower average weights. Further research might be needed to explore why salamanders in side-channels may or may not weight less, on average, than their counterparts elsewehere in the creek.
 \
 
 ### References
