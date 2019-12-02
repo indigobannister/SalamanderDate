@@ -86,7 +86,7 @@ For more information see the project [metadata](https://portal.lternet.edu/nis/m
 
 All analyses and figures were prepared using R software version 3.6.1.
 
-**ADD SUMMARY OF WHAT ANALYSIS WAS CONDUCTED -  types of statistical tests performed, significance level used**
+<p style="color:red"> **ADD SUMMARY OF WHAT ANALYSIS WAS CONDUCTED -  types of statistical tests performed, significance level used**</p>
 
 \
 
@@ -220,7 +220,7 @@ In 2017, there was an `r round(abs(ttest$estimate[1]-ttest$estimate[2])/((ttest$
 
 #### 5. Comparison of salamander weights by channel classification
 
-```{r}
+```{r, fig.align="center", out.width="100%"}
 # Create data subset, salamander weight in 2017
 salamander_weight_2017 <- salamander_clean %>% 
   filter(year == "2017", unittype !="IP") %>% 
@@ -235,7 +235,9 @@ salamander_wt_2017_sum <- salamander_weight_2017 %>%
   na.omit() %>% 
   group_by(channel_class) %>% 
   summarise(sal_mean = mean(weight),
-            sal_sd = sd(weight))
+            sal_sd = sd(weight),
+            sal_sd_high = sal_mean + sal_sd,
+            sal_sd_low = sal_mean - sal_sd)
 
 # Create a plot depicting salamander weights by channel classification
 graph_2 <- ggplot() +
@@ -243,23 +245,26 @@ graph_2 <- ggplot() +
                 aes(x = weight,
                     y = channel_class))
 
-# graph_2
+graph_2
 
 graph_2b <- ggplot() +
   geom_histogram(data = salamander_weight_2017, 
                 aes(x = weight, 
                     fill = channel_class,
                     alpha = 0.75)) +
-  #geom_point(data = salamander_wt_2017_sum, 
-            # aes(x = weight, y = ), 
-             #color = "firebrick",
-            # size = 4) +
- # geom_errorbar(data = penguin_f_summary, 
-               # aes(x = species, 
-                 #   ymin = mean_flipper_length - sd_flipper_length,
-                 #   ymax = mean_flipper_length + sd_flipper_length),
-               # color = "firebrick",
-              #  width = 0.1) +
+  scale_fill_manual(values = site_colors) +
+  geom_vline(data = salamander_wt_2017_sum, 
+            aes(xintercept = sal_mean,
+                group = channel_class,
+                color = channel_class),
+            size = 1.06,
+            linetype = "dotted") +
+ geom_errorbarh(data = salamander_wt_2017_sum, 
+               aes(y = 75, 
+                   xmin = sal_sd_low,
+                   xmax = sal_sd_high,
+                   color = channel_class),
+               width = 0.1) +
   labs(x = "Salamander weight (grams)",
        y = "Number of salamanders observed") +
   scale_x_continuous(expand = c(0,0),
@@ -268,13 +273,30 @@ graph_2b <- ggplot() +
   scale_y_continuous(expand = c(0,0),
                      limits = c(0,125),
                      breaks = seq (0,125, by = 25)) +  
+  scale_color_manual(values = site_colors) +
   theme_minimal() +
-  scale_fill_manual(values = site_colors) +
   facet_wrap(~channel_class) + 
-  theme(legend.position = "none")
-  
+  theme(legend.position = "none",
+        panel.spacing = unit(1.5, "lines"))
 
 graph_2b
+
+
+graph_2c <- ggplot() +
+geom_beeswarm(data = salamander_weight_2017, 
+              aes(y = weight,
+                  x = channel_class))
+
+graph_2c
+
+graph_2d <- ggplot() +
+geom_jitter(data = salamander_weight_2017, 
+              aes(y = weight,
+                  x = channel_class))
+
+graph_2d
+
+
 # So many outliers! Let's make sure to do something with medians
 
 
