@@ -163,7 +163,7 @@ salamander_sum_2017_table <- salamander_summary_2017 %>%
   adorn_pct_formatting(digits = 0) %>% 
   adorn_ns(position = "front") %>% 
   rename(Section = section_name) %>% 
-  rename(Channel = "C") %>% 
+  rename(Cascades = "C") %>% 
   rename(Pool = "P") %>% 
   rename("Side channel" = "SC")
   
@@ -209,12 +209,12 @@ salamander_weights_og <- salamander_clean %>%
   filter(year == "2017", section == "OG") 
 
 ttest <- t.test(salamander_weights_cc$weight, salamander_weights_og$weight)
-cohen <- cohen.d(salamander_weights_cc$weight, salamander_weights_og$weight) #SOMETHING ISNT WORKING WITH COHEN'S D. I JUST KEEP GETTING NA VALUES.
+cohen <- cohen.d(salamander_weights_cc$weight, salamander_weights_og$weight, na.rm = TRUE)
 
 ttest
 cohen
 ```
-In 2017, there was an `r round(abs(ttest$estimate[1]-ttest$estimate[2])/((ttest$estimate[1]+ttest$estimate[2])/2)*100,0)`% difference between salamander weights at clear-cut forest (m = `r round(ttest$estimate[1], 2)` grams) and old-growth forest (m = `r round(ttest$estimate[2], 2)` grams) sections. This difference is *not* statistically significant (t(`r round(ttest$parameter, 2)`) = `r round(ttest$statistic, 2)`, *p* = `r round(ttest$p.value, 3)`), with a _______ effect size (`r round(cohen$estimate, 2)`).
+In 2017, there was an `r round(abs(ttest$estimate[1]-ttest$estimate[2])/((ttest$estimate[1]+ttest$estimate[2])/2)*100,0)`% difference between salamander weights at clear-cut forest (m = `r round(ttest$estimate[1], 2)` grams) and old-growth forest (m = `r round(ttest$estimate[2], 2)` grams) sections. This difference is *not* statistically significant (t(`r round(ttest$parameter, 2)`) = `r round(ttest$statistic, 2)`, *p* = `r round(ttest$p.value, 3)`), with a negligible effect size (`r round(cohen$estimate, 2)`).
 
 \
 
@@ -275,17 +275,48 @@ graph_2b <- ggplot() +
   
 
 graph_2b
+# So many outliers! Let's make sure to do something with medians
 
 
 ```
 
 
-```{r, include = FALSE}
+```{r}
 
 # One-way ANOVA to explore possible differences in mean weights between salamanders in different parts of the channel
 
+# First create table of summary statistics
+salamander_weight_summary <- salamander_weight_2017 %>% 
+  group_by(channel_class) %>% 
+  summarize(
+    "Mean weight (g)" = mean(weight, na.rm = TRUE),
+    "Median weight" = median(weight, na.rm = TRUE),
+    "Standard deviation" = sd(weight, na.rm = TRUE),
+    "Sample size" = n(),
+    "Standard error" = sd(weight, na.rm = TRUE) / sqrt(n()),
+    "Variance" = var(weight, na.rm = TRUE)
+  ) %>% 
+  rename("Channel position" = channel_class)
+  
+kable(salamander_weight_summary) %>%
+ kable_styling(bootstrap_options = c("striped", "hover"), 
+              full_width = F,
+              position = "center"
+              )
+```
+
+```{r, include = FALSE}
+# Levene's test 
+
+leveneTest(weight ~ unittype, data = salamander_weight_2017)
+
 salamander_aov <- aov(weight ~ channel_class, data = salamander_weight_2017)
 summary(salamander_aov)
+
+summary(salamander_aov)
+
+aov_outputs <- unlist(summary(salamander_aov))
+aov_outputs
 
 # Post-hoc test run on salamander ANOVA results
 
@@ -293,10 +324,19 @@ salamander_post_hoc <- TukeyHSD(salamander_aov)
 salamander_post_hoc
 
 ```
+Mean weight (g) differed significantly between salamanders found in (one-way ANOVA with post-hoc Tukey's HSD, (F(`r aov_outputs[1]`, `r aov_outputs[2]`) = `r round(aov_outputs[7],2)`, *p* = `r round(aov_outputs[9],3)`). 
+
+An analysis of variance (ANOVA) on salamander weights in Mack Creek  yielded significant variation among channel positions, (F(`r aov_outputs[1]`, `r aov_outputs[2]`) = `r round(aov_outputs[7],2)`, *p* = `r round(aov_outputs[9],3)`). A post hoc Tukey test showed that mean weights for salamanders found in side-channels and pools differed significantly *p* = `r round(salamander_post_hoc$channel_class[12],3)`), while we do not see siginificant differences elsewhere.
+
+<p style="color:red">  **Next will add why means are bad! Outliers!** </p>
 \
 
 ### Summary
 
+- Based on a number of statistical tests, we do not see significant differences in Pacific giant salamander weight between different sections of forest (old growth or clear cut), or different sections of the channel (cascades, side-pool, pool).
+- We also do not see significants differences between *where* in Mack Creek (cascades, pool, side-channel) salamanders are found in an old growth section of the forest versus in a clear cut section. Proportions of salamanders in the three channel classifications are similar across the two forest sections.
+- These findings may suggest that Pacific giant salamanders are resilient to perturbation.
+- <p style="color:red">**Maybe add something about weights not being different, not really sure why any of these results are particularly interesting? Besides above?**</p>
 \
 
 ### References
