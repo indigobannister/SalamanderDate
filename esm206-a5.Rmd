@@ -142,6 +142,9 @@ ggplotly(graph_1, tooltip = "text") %>%
 \
 
 #### 2. Salamander counts by channel classification, 2017
+
+<p style="color:red"> **ADD FLOW HERE**</p>
+
 <font size="2"> ***Table 1:***
 *2017 counts of Salamanders found in Mack Creek, grouped by section (clear cut vs. old growth) and position within channel (pool, cascades, side-channel).* </font>
 
@@ -236,55 +239,46 @@ salamander_wt_2017_sum <- salamander_weight_2017 %>%
   na.omit() %>% 
   group_by(channel_class) %>% 
   summarise(sal_mean = mean(weight),
+            count = n(),
             sal_sd = sd(weight),
-            sal_sd_high = sal_mean + sal_sd,
-            sal_sd_low = sal_mean - sal_sd)
+            sal_se = sal_sd/sqrt(count),
+            sal_se_high = sal_mean + sal_se,
+            sal_se_low = sal_mean - sal_se)
 
 # Create a plot depicting salamander weights by channel classification
-graph_2b <- ggplot() +
-  geom_histogram(data = salamander_weight_2017, 
-                aes(x = weight, 
-                    fill = channel_class,
-                    alpha = 0.75)) +
-  scale_fill_manual(values = site_colors) +
-  geom_vline(data = salamander_wt_2017_sum, 
-            aes(xintercept = sal_mean,
-                group = channel_class,
-                color = channel_class),
-            size = 1.06,
-            linetype = "dotted") +
- geom_errorbarh(data = salamander_wt_2017_sum, 
-               aes(y = 75, 
-                   xmin = sal_sd_low,
-                   xmax = sal_sd_high,
-                   color = channel_class),
-               width = 0.1) +
-  labs(x = "Salamander weight (grams)",
-       y = "Number of salamanders observed") +
-  scale_x_continuous(expand = c(0,0),
-                     limits = c(0,90),
-                     breaks = seq(0,90, by = 20)) +
-  scale_y_continuous(expand = c(0,0),
-                     limits = c(0,125),
-                     breaks = seq (0,125, by = 25)) +  
-  scale_color_manual(values = site_colors) +
-  theme_minimal() +
-  facet_wrap(~channel_class) + 
-  theme(legend.position = "none",
-        panel.spacing = unit(1.5, "lines"))
-
-graph_2b
-
-graph_2d <- ggplot() +
+graph_2 <- ggplot() +
 geom_jitter(data = salamander_weight_2017, 
               aes(y = weight,
-                  x = channel_class))
+                  x = channel_class,
+                  color = channel_class),
+            alpha = 0.5,
+            shape = 16,
+            size = 1.8) + 
+  geom_point(data = salamander_wt_2017_sum,
+           aes(x = channel_class,
+                 y = sal_mean),
+          color = "gray10",
+          shape = 15) +
+  geom_errorbar(data = salamander_wt_2017_sum, 
+              aes(x = channel_class,
+                  ymin = sal_se_low,
+                  ymax = sal_se_high),
+              color = "gray10",
+              width = 0.5) +
+  scale_color_manual(values = site_colors) + 
+  labs(x = "",
+       y = "Salamander weight (grams)") +
+  scale_y_continuous(expand = c(0,0),
+                     limits = c(0,100),
+                     breaks = seq (0,100, by = 25)) +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  coord_flip()
 
-graph_2d
-
+graph_2
 
 ```
-
+<font size="2"> ***Figure 4: Comparison of salamander weights in three different channel classifications, 2017.*** *Salamander weights (grams) measured in side-channels, pools, and cascades of Mack Creek in the HJ Andrews Experimental Forest. Mean salamander weight shown by the small, black square with black whiskers showing standard error.* </font>
 
 ```{r}
 
@@ -309,6 +303,8 @@ kable(salamander_weight_summary) %>%
               position = "center"
               )
 ```
+
+<p style="color:red"> **ADD TABLE CAPTIONS**</p>
 
 ```{r, include = FALSE}
 # Levene's test 
@@ -339,6 +335,7 @@ sidechannel_weights <- salamander_weight_2017 %>%
   filter(channel_class == "Side-Channel") %>% 
   pull(weight)
 
+# Then run Cohen's d
 cohen_weight <- cohen.d(pool_weights, sidechannel_weights, na.rm = TRUE)
 
 cohen_weight
@@ -349,12 +346,15 @@ An analysis of variance (ANOVA) on salamander weights in Mack Creek  yielded sig
 
 While the above analysis uses mean as the measure of central tendency, there are numerous outliers in the data for all three channel classifications. This is easily visible in Figure 3. As a result, means of these samples will skew greater than other measures of central tendency. Therefore we present sample medians for all three channel classifications. Aligning with the results from statistical tests (one-way ANOVA and post-hoc Tukey's HSD) to compare means, we can see that side-channel median weight (median = `r round(salamander_weight_summary$"Median weight (g)"[3], 2)`) is lowest. Overall, Pacific giant salamander weights are relatively similar between the three channel classifications in Mack Creek.  
 
+\
+
 ### Summary
 
 - Based on a number of statistical tests, we do not see significant differences in Pacific giant salamander weight between different sections of forest (old growth or clear cut), or different sections of the channel (cascades, side-pool, pool).
 - We also do not see significants differences between *where* in Mack Creek (cascades, pool, side-channel) salamanders are found in an old growth section of the forest versus in a clear cut section. Proportions of salamanders in the three channel classifications are similar across the two forest sections.
 - These findings may suggest that Pacific giant salamanders are resilient to perturbation when viewed over long time periods. That is to say, while Pacific giant salamanders may be sensitive to perturbation initially, they are able to recover over time.
 - We do not see major differences between weights of salamanders in different sections of the channel, though salamanders found in side-channels have slightly lower average weights. Further research might be needed to explore why salamanders in side-channels may or may not weight less, on average, than their counterparts elsewehere in the creek.
+
 \
 
 ### References
