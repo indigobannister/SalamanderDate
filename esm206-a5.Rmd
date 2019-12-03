@@ -61,11 +61,11 @@ salamander_clean <- salamander_raw %>%
 \
 
 ### Introduction
-Pacific giant salamanders (*Dicamptodon tenebrosus*), the largest terrestrial salamander in North America, thrive in the wet forests of coastal northern California, Oregon, and Washington (California Herps, 2019). Their preferred habitat is near clear, cold streams, rivers, lakes, or ponds with rocks, logs or root channels to burrow under. Larvae hatch under water and spend approximately the first two years of their lives in the water. Once they transform to their terrestrial forms, reproduction also occurs in the water, (California Herps, 2019). Due to their sensitivity to water quality, Pacific giant salamanders are used as an indicator species of the declining health of waterways. Logging can be particularly impactful on Pacific giant salamanders due to the increased sedimentation of streams from erosion (Oregon Wild, 2019). 
+Pacific giant salamanders (*Dicamptodon tenebrosus*), the largest terrestrial salamander in North America, thrive in the wet forests of coastal northern California, Oregon, and Washington (California Herps, 2019). Their preferred habitat is near clear, cold streams, rivers, lakes, or ponds with rocks, logs, or root channels to burrow under. Larvae hatch under water and spend approximately the first two years of their lives in the water. Once they transform to their terrestrial forms, reproduction also occurs in the water (California Herps, 2019). Due to their sensitivity to water quality, Pacific giant salamanders are used as an indicator species of the declining health of waterways. Logging can be particularly impactful on Pacific giant salamanders due to the increased sedimentation of streams from erosion (Oregon Wild, 2019). 
 
-Oregon State University has been monitoring the species along Mack Creek in the H.J. Andrews Experimental Forest near Eugene, Oregon since 1993. Electrofishing is used to capture vertebrates along the creek and all captured vertebrates are measured and weighed (Gregory S. V., 2016). The Mack Creek watershed (1,433 acres) contains two unique management histories: approximately 13% of the watershed was clear cut around 1963 and the rest contains a 500-year-old coniferous forest (Andrews Experimental Forest, 2017). This research forest offers a unique chance to consider the long-term impacts of logging on salamander well-being compared to a more natural forest. 
+Oregon State University has been monitoring the species along Mack Creek in the H.J. Andrews Experimental Forest near Eugene, Oregon since 1993. Electrofishing is used to capture vertebrates along the creek and all captured vertebrates are measured and weighed (Gregory S. V., 2016). The Mack Creek watershed (1,433 acres) contains two unique management histories: approximately 13% of the watershed was clearcut around 1963 and the rest contains a 500-year-old coniferous forest (Andrews Experimental Forest, 2017). This research forest offers a unique chance to consider the long-term impacts of logging on salamander well-being compared to a more natural forest. 
 
-In this analysis, we use data provided by the Andrews Experimental Forest to explore differences in salamander abundance and weight among old growth and clear-cut sections of Mack Creek and among different stream characteristics (pool, cascade, side channel).
+In this analysis, we use data provided by the Andrews Experimental Forest to explore differences in salamander abundance and weight among old-growth and clearcut sections of Mack Creek and among different stream characteristics (pool, cascade, side channel).
 
 
 \
@@ -80,38 +80,39 @@ In this analysis, we use data provided by the Andrews Experimental Forest to exp
 
 \
 
-Data for populations of Pacific giant salamanders *(Dicamptodon tenebrosus)* were collected in the [H.J. Andrews Experimental Forest](https://andrewsforest.oregonstate.edu/) near Blue River, Oregon as part of the National Science Foundation's Long Term Ecological Research Network. Salamanders were sampled with two-pass electrofishing in two sections of Mack Creek, one reach in a section of clearcut forest (ca. 1963) and the other an upstream 500-year-old coniferous forest. The two sections are then subdivided to indicate where in the channel salamanders were found (pool, cascade, or side-channel). According to project metadata, the purpose of the Aquatic Vertebrate Population Study in Mack Creek, is "to provide a long-term record of populations in aquatic vertebrates...related to land use and disturbance histories."
-
-For more information see the project [metadata](https://portal.lternet.edu/nis/metadataviewer?packageid=knb-lter-and.4027.12)
+Data for populations of Pacific giant salamanders *(Dicamptodon tenebrosus)* were collected in the [H.J. Andrews Experimental Forest](https://andrewsforest.oregonstate.edu/) as part of the National Science Foundation's Long Term Ecological Research Network. Salamanders were sampled with two-pass electrofishing in two sections of Mack Creek, one reach in a section of clearcut forest (ca. 1963) and the other an upstream 500-year-old coniferous forest. The two sections are then subdivided to indicate where in the channel salamanders were found (pool, cascade, or side-channel). According to project metadata, the purpose of the Aquatic Vertebrate Population Study in Mack Creek, is "to provide a long-term record of populations in aquatic vertebrates...related to land use and disturbance histories." For more information see the project [metadata](https://portal.lternet.edu/nis/metadataviewer?packageid=knb-lter-and.4027.12)
 
 The following visual analyses and statistical tests were performed in this analysis to explore Pacific giant salamander populations in Mack Creek:
-- Visual comparion of salamander counts in old growth and clear cut sections of Mack Creek;
-- Chi-square test to test whether where in the channel salamanders are found varies based on forest section (clear cut vs. old growth);
-- Two-sided, unpaired t-test to see if there is a significant difference in salander weights between clear cut and old growth forest sections;
-- And, to examine differences in mean salamander weights in 2017 between channel classifications, we performed one-way ANOVA, Tukey's HSD, and Cohen's effect size tests.
 
-All tests were performed using a significance level of $\alpha$ = .05.
-All analyses and figures were prepared using R software version 3.6.1.
+- visual comparion of salamander counts in old-growth and clearcut sections of Mack Creek;
+
+- chi-square test to examine if there is an association in the number of salamanders by channel location and forest section (clearcut vs. old-growth);
+
+- two-sided, unpaired t-test to determine if there is a significant difference in salander weights between clearcut and old-growth forest sections;
+
+- and one-way ANOVA, Tukey's HSD, and Cohen's effect size tests to examine differences in mean salamander weights in 2017 between channel classifications.
+
+All tests were performed using a significance level of $\alpha$ = 0.05. All analyses and figures were prepared using R software version 3.6.1.
 
 
 \
 
 ### Results
 
-#### 1. Salamander abundance in old-growth and clear-cut sections of Mack Creek
-Figure 3 demonstrates that lobster abundance has followed relatively similar trends in Mack Creek depite the different forest management techniques. From 1995 to 2011, salamander counts along the clear-cut sections of Mack Creek were lower than those in the old-growth sections. In the years preceding and following this range, there were years where counts in the clear-cut sections exceeded those in the old-growth sections. Overall trends in abundance seem to impact salamanders no matter what forest type they are in, with both groups experiencing increading and decreasing numbers in the same years.  
+#### 1. Salamander abundance in old-growth and clearcut sections of Mack Creek
+Figure 3 demonstrates that salamander abundance has followed relatively similar trends in Mack Creek depite the different forest management techniques. From 1995 to 2011, salamander counts along the clearcut sections of Mack Creek were lower than those in the old-growth sections. In the years preceding and following this range, there were years where counts in the clearcut sections exceeded those in the old-growth sections. Overall trends in abundance seem to impact salamanders no matter what forest type they are in, with both groups experiencing increasing and decreasing numbers in the same years.  
 
 ```{r,fig.align="center",out.width="100%"}
 
-# Summarize count of salamanders by seciton and year
+# Summarize count of salamanders by section and year
 salamander_count_sec <- salamander_clean %>% 
   group_by(section, year) %>% 
   summarize(count = n()) %>%
   mutate(section_name = 
-           ifelse(section == "CC", "Clear-cut",
+           ifelse(section == "CC", "Clearcut",
          ifelse(section == "OG", "Old-growth", "")))
 
-# Create a custom palette for colors in graph_a
+# Create a custom palette for colors in graph_1
 site_colors <- park_palette("MtRainier")
 
 # Create plot of salamander count over years at each section
@@ -134,22 +135,21 @@ graph_1 <- ggplot(data = salamander_count_sec,
                      breaks = seq(0, 400, by = 50),
                      expand = c(0, 0))
   
-# Make graph_a interactive with ggplotly 
+# Make graph_1 interactive with ggplotly 
 ggplotly(graph_1, tooltip = "text") %>% 
   layout(legend = list(x = 0.05, y = 0.85)) %>%
   config(displayModeBar = FALSE)
 
 ```
-<font size="2"> ***Figure 3: Salamander abundance in clear-cut and old-growth forest, 1993 to 2017.*** *Annual salamander counts through electro-fishing in Mack Creek in the HJ Andrews Experimental Forest.* ***Interactive:*** *Double-click on individual site within legend to highlight. Single-click and unclick sites within legend to toggle visibility and compare site data.*</font>
+<font size="2"> ***Figure 3: Salamander abundance in clearcut and old-growth forest, 1993 to 2017.*** *Annual salamander counts through electro-fishing in Mack Creek in the HJ Andrews Experimental Forest.* ***Interactive:*** *Double-click on individual site within legend to highlight. Single-click and unclick sites within legend to toggle visibility and compare site data.*</font>
 
 
 \
 
 #### 2. Salamander counts by channel classification, 2017
-After exploring salamander abundance based on forest section, we wanted to explore whether salamander abundance in different parts of Mack Creek is related to which forest section they are found in. The contingency table below, which we use in part 3 to conduct a Chi-square test, shows counts and proportions of where salamanders were found in the channel in both the clear cut and old growth sections of the H.J. Andrews Experimental Forest.
+After exploring salamander abundance based on forest section, we explored whether salamander abundance in different parts of Mack Creek is related to which forest section they are found in. The contingency table below shows counts and proportions of where salamanders were found in the channel in both the clearcut and old-growth sections of the H.J. Andrews Experimental Forest. This information was then used in part 3 to conduct a Chi-square test.
 
-<font size="2"> ***Table 1:***
-*2017 counts of Salamanders found in Mack Creek, grouped by section (clear cut vs. old growth) and position within channel (pool, cascades, side-channel).* </font>
+<font size="2"> ***Table 1: Salamander counts in Mack Creek by forest section and channel position, 2017.*** *Counts are differentiated by forest section (clearcut vs. old-growth) and position within channel (pool, cascades, side-channel).* </font>
 
 ```{r}
 
@@ -158,8 +158,8 @@ After exploring salamander abundance based on forest section, we wanted to explo
 salamander_summary_2017 <- salamander_clean %>% 
   filter(year == "2017", unittype != "IP") %>% 
   mutate(section_name = 
-           ifelse(section == "CC", "Clear Cut",
-         ifelse(section == "OG", "Old Growth", ""))) %>% 
+           ifelse(section == "CC", "Clearcut",
+         ifelse(section == "OG", "Old-growth", ""))) %>% 
   group_by(section_name, unittype) %>% 
   summarize(count = n()) %>%
   pivot_wider(names_from = unittype, values_from = count)
@@ -170,7 +170,7 @@ salamander_sum_2017_table <- salamander_summary_2017 %>%
   janitor::adorn_percentages(denominator = "row") %>% 
   adorn_pct_formatting(digits = 0) %>% 
   adorn_ns(position = "front") %>% 
-  rename(Section = section_name) %>% 
+  rename(" " = section_name) %>% 
   rename(Cascades = "C") %>% 
   rename(Pool = "P") %>% 
   rename("Side channel" = "SC")
@@ -181,7 +181,8 @@ kable(salamander_sum_2017_table) %>%
  kable_styling(bootstrap_options = c("striped", "hover"), 
               full_width = F,
               position = "center"
-              )
+              ) %>% 
+  column_spec(1, bold = T, color = "black")
 
   
 
@@ -199,12 +200,12 @@ chi_sq_test <- chisq.test(chi_sq_table)
 chi_sq_test
 ```
 
-We used a Chi-square test to examine the relationship between channel position (pool, side-channel or cascades) and section (clear cut or old growth) in Mack Creek. We found a $\chi$^2^ value of `r round(chi_sq_test$statistic, 2)` (d.f. `r chi_sq_test$parameter`) with a p-value of `r round(chi_sq_test$p.value, 3)`. As a result, we retain the null hypothesis that there is *no* association between channel position and forest section for Pacific giant salamanders in Mack Creek.
+We used a Chi-square test to examine the relationship between channel position (pool, side-channel or cascades) and section (clearcut or old-growth) in Mack Creek. We found a $\chi$^2^ value of `r round(chi_sq_test$statistic, 2)` (d.f. `r chi_sq_test$parameter`) with a p-value of `r round(chi_sq_test$p.value, 3)`. As a result, we retain the null hypothesis that there is *no* association between channel position and forest section for Pacific giant salamanders in Mack Creek.
 
 \
 
-#### 4. Salamander weights in clear cut vs. old growth forests, 2017
-In order to assess whether forest management strategies had an impact on salamander weight and abundance,  statistical testing (Student's T Test and Cohen's Effect Size) was used to compare salamander weights in clear cut and old growth forest sections in 2017.
+#### 4. Salamander weights in clearcut vs. old-growth forests, 2017
+In order to assess whether forest management strategies had an impact on salamander weight and abundance,  statistical testing (Student's T Test and Cohen's Effect Size) was used to compare salamander weights in clearcut and old-growth forest sections in 2017.
 
 ```{r, include = FALSE}
 
@@ -221,7 +222,7 @@ cohen <- cohen.d(salamander_weights_cc$weight, salamander_weights_og$weight, na.
 ttest
 cohen
 ```
-In 2017, there was a `r round(abs(ttest$estimate[1]-ttest$estimate[2])/((ttest$estimate[1]+ttest$estimate[2])/2)*100,0)`% difference between salamander weights at clear-cut forest (m = `r round(ttest$estimate[1], 2)` grams) and old-growth forest (m = `r round(ttest$estimate[2], 2)` grams) sections. This difference is *not* statistically significant (t(`r round(ttest$parameter, 2)`) = `r round(ttest$statistic, 2)`, *p* = `r round(ttest$p.value, 3)`), with a negligible effect size (`r round(cohen$estimate, 2)`).
+In 2017, there was a `r round(abs(ttest$estimate[1]-ttest$estimate[2])/((ttest$estimate[1]+ttest$estimate[2])/2)*100,0)`% difference between salamander weights at clearcut forest (m = `r round(ttest$estimate[1], 2)` grams) and old-growth forest (m = `r round(ttest$estimate[2], 2)` grams) sections. This difference is *not* statistically significant (t(`r round(ttest$parameter, 2)`) = `r round(ttest$statistic, 2)`, *p* = `r round(ttest$p.value, 3)`), with a negligible effect size (`r round(cohen$estimate, 2)`).
 
 \
 
@@ -355,8 +356,8 @@ While the above analysis uses mean as the measure of central tendency, there are
 
 ### Summary
 
-- Based on a number of statistical tests, we do not see significant differences in Pacific giant salamander weight between different sections of forest (old growth or clear cut), or different sections of the channel (cascades, side-pool, pool).
-- We also do not see significants differences between *where* in Mack Creek (cascades, pool, side-channel) salamanders are found in an old growth section of the forest versus in a clear cut section. Proportions of salamanders in the three channel classifications are similar across the two forest sections.
+- Based on a number of statistical tests, we do not see significant differences in Pacific giant salamander weight between different sections of forest (old-growth or clearcut), or different sections of the channel (cascades, side-pool, pool).
+- We also do not see significants differences between *where* in Mack Creek (cascades, pool, side-channel) salamanders are found in an old-growth section of the forest versus in a clearcut section. Proportions of salamanders in the three channel classifications are similar across the two forest sections.
 - These findings may suggest that Pacific giant salamanders are resilient to perturbation when viewed over long time periods. That is to say, while Pacific giant salamanders may be sensitive to perturbation initially, they are able to recover over time.
 - We do not see major differences between weights of salamanders in different sections of the channel, though salamanders found in side-channels have slightly lower average weights. Further research might be needed to explore why salamanders in side-channels may or may not weight less, on average, than their counterparts elsewehere in the creek.
 
