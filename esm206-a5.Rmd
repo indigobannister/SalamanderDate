@@ -84,11 +84,15 @@ Data for populations of Pacific giant salamanders *(Dicamptodon tenebrosus)* wer
 
 For more information see the project [metadata](https://portal.lternet.edu/nis/metadataviewer?packageid=knb-lter-and.4027.12)
 
-The following tests were performed in this analysis to explore Pacific giant salamander populations in Mack Creek:
+The following visual analyses and statistical tests were performed in this analysis to explore Pacific giant salamander populations in Mack Creek:
+- Visual comparion of salamander counts in old growth and clear cut sections of Mack Creek;
+- Chi-square test to test whether where in the channel salamanders are found varies based on forest section (clear cut vs. old growth);
+- Two-sided, unpaired t-test to see if there is a significant difference in salander weights between clear cut and old growth forest sections;
+- And, to examine differences in mean salamander weights in 2017 between channel classifications, we performed one-way ANOVA, Tukey's HSD, and Cohen's effect size tests.
 
 All tests were performed using a significance level of $\alpha$ = .05.
 All analyses and figures were prepared using R software version 3.6.1.
-<p style="color:red"> **ADD SUMMARY OF WHAT ANALYSIS WAS CONDUCTED -  types of statistical tests performed, significance level used**</p>
+
 
 \
 
@@ -142,8 +146,7 @@ ggplotly(graph_1, tooltip = "text") %>%
 \
 
 #### 2. Salamander counts by channel classification, 2017
-
-<p style="color:red"> **ADD FLOW HERE**</p>
+After exploring salamander abundance based on forest section, we wanted to explore whether salamander abundance in different parts of Mack Creek is related to which forest section they are found in. The contingency table below, which we use in part 3 to conduct a Chi-square test, shows counts and proportions of where salamanders were found in the channel in both the clear cut and old growth sections of the H.J. Andrews Experimental Forest.
 
 <font size="2"> ***Table 1:***
 *2017 counts of Salamanders found in Mack Creek, grouped by section (clear cut vs. old growth) and position within channel (pool, cascades, side-channel).* </font>
@@ -280,6 +283,10 @@ graph_2
 ```
 <font size="2"> ***Figure 4: Comparison of salamander weights in three different channel classifications, 2017.*** *Salamander weights (grams) measured in side-channels, pools, and cascades of Mack Creek in the HJ Andrews Experimental Forest. Mean salamander weight shown by the small, black square with black whiskers showing standard error.* </font>
 
+While Figure 4 displays means and variance for Salamander weights in Mack Creek based on channel classification, the below table gives a more robust summary of the data.
+
+<font size="2"> ***Table 2:***
+*Summary statistics for weights of Salamanders found in Mack Creek, grouped by position within channel (pool, cascades, side-channel), in 2017.* </font>
 ```{r}
 
 # One-way ANOVA to explore possible differences in mean weights between salamanders in different parts of the channel
@@ -303,8 +310,6 @@ kable(salamander_weight_summary) %>%
               position = "center"
               )
 ```
-
-<p style="color:red"> **ADD TABLE CAPTIONS**</p>
 
 ```{r, include = FALSE}
 # Levene's test 
