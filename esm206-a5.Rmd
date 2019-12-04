@@ -337,7 +337,6 @@ cohen_weight <- cohen.d(pool_weights, sidechannel_weights, na.rm = TRUE)
 
 cohen_weight
 ```
-Mean weight (g) differed significantly between salamanders found in **____** (one-way ANOVA with post-hoc Tukey's HSD, (F(`r aov_outputs[1]`, `r aov_outputs[2]`) = `r round(aov_outputs[7],2)`, *p* = `r round(aov_outputs[9],3)`). 
 
 An analysis of variance (ANOVA) on salamander weights in Mack Creek yielded significant variation among channel positions, (F(`r aov_outputs[1]`, `r aov_outputs[2]`) = `r round(aov_outputs[7],2)`, *p* = `r round(aov_outputs[9],3)`). A post hoc Tukey test showed that mean weights for salamanders found in side-channels and pools differed significantly *p* = `r round(salamander_post_hoc$channel_class[12],3)`) with a small effect size (`r round(cohen_weight$estimate, 2)`) and a `r round(abs(salamander_weight_summary$"Mean weight (g)"[2]-salamander_weight_summary$"Mean weight (g)"[3])/((salamander_weight_summary$"Mean weight (g)"[2]+salamander_weight_summary$"Mean weight (g)"[3])/2)*100,0)`% difference. We do not see siginificant differences elsewhere.
 
